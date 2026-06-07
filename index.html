@@ -20,7 +20,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
 .card{position:relative;z-index:10;width:100%;max-width:480px;background:rgba(255,255,255,.17);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);border:1.5px solid rgba(255,255,255,.38);border-radius:32px;padding:36px 28px 32px;box-shadow:0 8px 48px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.45);animation:cardIn .8s cubic-bezier(.22,.9,.36,1) both}
 @keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 .header{text-align:center;margin-bottom:26px}
-.card-title{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-bottom:5px}.card-sub{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
+.card-title{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-bottom:5px}
+.card-sub{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
 .progress-wrap{margin-bottom:22px}
 .progress-meta{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.65);margin-bottom:7px}
 .progress-bar{height:5px;background:rgba(255,255,255,.18);border-radius:3px;overflow:hidden}
@@ -239,7 +240,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
       </div>
       <div class="btn-row">
         <button class="btn-back" onclick="goTo(3)">›</button>
-        <button class="btn-next" onclick="submit()">إرسال الطلب </button>
+        <button class="btn-next" onclick="submit()">إرسال الطلب</button>
       </div>
     </div>
 
@@ -254,9 +255,9 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
 </div>
 
 <script>
-const TOTAL = 4;
-let cur = 1;
-const expAnswered = () => document.querySelector('#yn-exp .sel');
+const TOTAL=4;
+let cur=1;
+const expAnswered=()=>document.querySelector('#yn-exp .sel');
 
 function updateProgress(n){
   const pct=Math.round((n/TOTAL)*100);
@@ -298,7 +299,7 @@ function next(from){
       if(!stillSel){shakeGroup('yn-still');ok=false;}
     }
   }
-  if(ok && from<TOTAL) goTo(from+1);
+  if(ok&&from<TOTAL)goTo(from+1);
 }
 
 function v(id){
@@ -399,9 +400,7 @@ function submit(){
   btn.textContent='جاري الإرسال...';
   btn.disabled=true;
 
-fetch(SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(data)), {
-    method: 'GET',
-  })
+  fetch(SHEET_URL+'?data='+encodeURIComponent(JSON.stringify(data)),{method:'GET'})
   .then(()=>{
     document.getElementById('s4').classList.remove('active');
     document.getElementById('pfill').style.width='100%';
@@ -416,19 +415,10 @@ fetch(SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(data)), {
     btn.disabled=false;
   });
 }
-  if(!ok)return;
-  document.getElementById('s4').classList.remove('active');
-  document.getElementById('pfill').style.width='100%';
-  document.getElementById('pct-lbl').textContent='100%';
-  document.getElementById('step-lbl').textContent='مكتمل ✓';
-  document.getElementById('success').classList.add('show');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
 
 function restart(){
   document.getElementById('success').classList.remove('show');
-  ['f-name','f-phone','f-email','f-city',
-   'f-edu',
+  ['f-name','f-phone','f-email','f-city','f-edu',
    'f-brand','f-sector','f-prev-type','f-prev-dur','f-prev-loc',
    'f-prev-branches','f-fund-other'].forEach(id=>{
     const el=document.getElementById(id);
