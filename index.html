@@ -367,6 +367,60 @@ function submit(){
     shake(document.getElementById('f-fund-other'));ok=false;
   }
   if(!ok)return;
+
+  const expSel=document.querySelector('#yn-exp .sel');
+  const stillSel=document.querySelector('#yn-still .sel');
+  const finSel=document.querySelector('#yn-fin .sel');
+  const teamSel=document.querySelector('#yn-team .sel');
+  const fundingArr=[...document.querySelectorAll('#og-fund .sel')]
+    .map(b=>b.textContent.trim()).join(' - ');
+
+  const data={
+    name:         document.getElementById('f-name').value,
+    phone:        document.getElementById('f-phone').value,
+    email:        document.getElementById('f-email').value,
+    city:         document.getElementById('f-city').value,
+    edu:          document.getElementById('f-edu').value,
+    brand:        document.getElementById('f-brand').value,
+    sector:       document.getElementById('f-sector').value,
+    hasExp:       expSel?expSel.textContent.trim():'',
+    prevType:     document.getElementById('f-prev-type').value,
+    prevDur:      document.getElementById('f-prev-dur').value,
+    prevLoc:      document.getElementById('f-prev-loc').value,
+    prevBranches: document.getElementById('f-prev-branches').value,
+    stillActive:  stillSel?stillSel.textContent.trim():'',
+    financial:    finSel?finSel.textContent.trim():'',
+    team:         teamSel?teamSel.textContent.trim():'',
+    funding:      fundingArr
+  };
+
+  const SHEET_URL='https://script.google.com/macros/s/AKfycbyFu3of5SYuBAJaC8o7qWw4UI0EmvFhkwFToMOjrBK7b56aEUASLAE9VUksRoYy4GK-QQ/exec';
+
+  const btn=document.querySelector('#s4 .btn-next');
+  btn.textContent='جاري الإرسال...';
+  btn.disabled=true;
+
+  fetch(SHEET_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+  .then(()=>{
+    document.getElementById('s4').classList.remove('active');
+    document.getElementById('pfill').style.width='100%';
+    document.getElementById('pct-lbl').textContent='100%';
+    document.getElementById('step-lbl').textContent='مكتمل ✓';
+    document.getElementById('success').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  })
+  .catch(()=>{
+    alert('حدث خطأ، يرجى المحاولة مجدداً');
+    btn.textContent='إرسال الطلب';
+    btn.disabled=false;
+  });
+}
+  if(!ok)return;
   document.getElementById('s4').classList.remove('active');
   document.getElementById('pfill').style.width='100%';
   document.getElementById('pct-lbl').textContent='100%';
