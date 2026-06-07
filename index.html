@@ -400,12 +400,8 @@ function submit(){
   btn.textContent='جاري الإرسال...';
   btn.disabled=true;
 
- const formData = new FormData();
-  formData.append('data', JSON.stringify(data));
-
-  fetch(SHEET_URL, {
-    method: 'POST',
-    body: formData
+fetch(SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(data)), {
+    method: 'GET',
   })
   .then(()=>{
     document.getElementById('s4').classList.remove('active');
