@@ -82,8 +82,6 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
   <div class="blob b3"></div><div class="blob b4"></div>
 </div>
 <div class="card">
-
-  <!-- شاشة اختيار الموقع -->
   <div id="location-select-screen">
     <div class="header">
       <img src="wep.png" style="width:300px;height:300px;object-fit:contain;margin-bottom:10px;" />
@@ -106,10 +104,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
       <button class="btn-next" onclick="startForm()">بدء التعبئة &nbsp;<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
     </div>
   </div>
-
-  <!-- محتوى الاستمارة (مخفي في البداية) -->
   <div id="main-form" style="display:none">
-
   <div class="header">
     <img src="wep.png" style="width:300px;height:300px;object-fit:contain;margin-bottom:10px;" />
     <div class="card-title" id="form-title">استمارة طلب الاستثمار في مجمع البدور</div>
@@ -123,13 +118,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
     <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
   </div>
   <div id="form-body">
-
-    <!-- STEP 1 -->
     <div class="step active" id="s1">
-      <div class="sec-badge">
-        <div class="sec-num">١</div>
-        <div class="sec-title">المعلومات الشخصية</div>
-      </div>
+      <div class="sec-badge"><div class="sec-num">١</div><div class="sec-title">المعلومات الشخصية</div></div>
       <div class="divider"></div>
       <div class="field">
         <label class="field-label">الاسم الكامل <span class="required">*</span></label>
@@ -167,13 +157,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
         <button class="btn-next" onclick="next(1)">التالي &nbsp;<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       </div>
     </div>
-
-    <!-- STEP 2 -->
     <div class="step" id="s2">
-      <div class="sec-badge">
-        <div class="sec-num">٢</div>
-        <div class="sec-title">معلومات المشروع المطلوب</div>
-      </div>
+      <div class="sec-badge"><div class="sec-num">٢</div><div class="sec-title">معلومات المشروع المطلوب</div></div>
       <div class="divider"></div>
       <div class="field">
         <label class="field-label">اسم العلامة التجارية أو المشروع <span class="required">*</span></label>
@@ -188,13 +173,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
         <button class="btn-next" onclick="next(2)">التالي &nbsp;<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       </div>
     </div>
-
-    <!-- STEP 3 -->
     <div class="step" id="s3">
-      <div class="sec-badge">
-        <div class="sec-num">٣</div>
-        <div class="sec-title">الخبرات السابقة</div>
-      </div>
+      <div class="sec-badge"><div class="sec-num">٣</div><div class="sec-title">الخبرات السابقة</div></div>
       <div class="divider"></div>
       <div class="field">
         <label class="field-label">هل لديك خبرة سابقة في إدارة أو تشغيل المشاريع؟ <span class="required">*</span></label>
@@ -235,13 +215,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
         <button class="btn-next" onclick="next(3)">التالي &nbsp;<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
       </div>
     </div>
-
-    <!-- STEP 4 -->
     <div class="step" id="s4">
-      <div class="sec-badge">
-        <div class="sec-num">٤</div>
-        <div class="sec-title">الجاهزية المالية والتشغيلية</div>
-      </div>
+      <div class="sec-badge"><div class="sec-num">٤</div><div class="sec-title">الجاهزية المالية والتشغيلية</div></div>
       <div class="divider"></div>
       <div class="field">
         <label class="field-label">هل لديك القدرة المالية للاستثمار في المشروع؟ <span class="required">*</span></label>
@@ -272,8 +247,6 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
         <button class="btn-next" onclick="submit()">إرسال الطلب</button>
       </div>
     </div>
-
-    <!-- Success -->
     <div class="success" id="success">
       <div class="success-icon">✓</div>
       <div class="success-title">تم إرسال طلبك بنجاح!</div>
@@ -281,9 +254,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
       <button class="btn-restart" onclick="restart()">تعبئة استمارة جديدة</button>
     </div>
   </div>
-
-  </div><!-- end main-form -->
-
+  </div>
 </div>
 
 <script>
@@ -442,10 +413,7 @@ function submit(){
   btn.textContent='جاري الإرسال...';
   btn.disabled=true;
 
-fetch(SHEET_URL+'?data='+encodeURIComponent(JSON.stringify(data)),{
-  method:'GET',
-  mode:'no-cors'
-})
+  fetch(SHEET_URL+'?data='+encodeURIComponent(JSON.stringify(data)),{method:'GET'})
   .then(()=>{
     document.getElementById('s4').classList.remove('active');
     document.getElementById('pfill').style.width='100%';
