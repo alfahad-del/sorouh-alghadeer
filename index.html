@@ -20,7 +20,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
 .card{position:relative;z-index:10;width:100%;max-width:480px;background:rgba(255,255,255,.17);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);border:1.5px solid rgba(255,255,255,.38);border-radius:32px;padding:36px 28px 32px;box-shadow:0 8px 48px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.45);animation:cardIn .8s cubic-bezier(.22,.9,.36,1) both}
 @keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 .header{text-align:center;margin-bottom:26px}
-.card-title{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-bottom:5px}
+.card-title{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-bottom:5px;transition:opacity .3s}
 .card-sub{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
 .progress-wrap{margin-bottom:22px}
 .progress-meta{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.65);margin-bottom:7px}
@@ -73,6 +73,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
 .btn-restart{background:#fff;border:none;border-radius:100px;padding:13px 32px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#1a2a5e;cursor:pointer;margin-top:6px;transition:transform .18s}
 .btn-restart:hover{transform:translateY(-2px)}
 .glass-input.err,.glass-textarea.err,.glass-select.err{border-color:rgba(255,100,100,.8)!important}
+#location-select-screen{display:flex;flex-direction:column;animation:fadeUp .4s ease both}
 </style>
 </head>
 <body>
@@ -81,9 +82,37 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
   <div class="blob b3"></div><div class="blob b4"></div>
 </div>
 <div class="card">
+
+  <!-- شاشة اختيار الموقع -->
+  <div id="location-select-screen">
+    <div class="header">
+      <img src="wep.png" style="width:300px;height:300px;object-fit:contain;margin-bottom:10px;" />
+      <div class="card-title">استمارة طلب الاستثمار</div>
+      <div class="card-sub">يرجى اختيار موقع استثمارك للبدء</div>
+    </div>
+    <div class="field">
+      <label class="field-label">اختر موقع استثمارك <span class="required">*</span></label>
+      <div class="edu-wrap">
+        <select class="glass-select" id="f-invest-location-start">
+          <option value="" disabled selected>اختر الموقع</option>
+          <option value="مدينة بدور بغداد">مدينة بدور بغداد</option>
+          <option value="مجمع طيبة النجف السكني">مجمع طيبة النجف السكني</option>
+          <option value="مجمع بدور النجف السكني">مجمع بدور النجف السكني</option>
+          <option value="مجمع غدير كربلاء السكني">مجمع غدير كربلاء السكني</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:16px">
+      <button class="btn-next" onclick="startForm()">بدء التعبئة &nbsp;<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- محتوى الاستمارة (مخفي في البداية) -->
+  <div id="main-form" style="display:none">
+
   <div class="header">
     <img src="wep.png" style="width:300px;height:300px;object-fit:contain;margin-bottom:10px;" />
-    <div class="card-title">استمارة طلب الاستثمار في مجمع البدور</div>
+    <div class="card-title" id="form-title">استمارة طلب الاستثمار في مجمع البدور</div>
     <div class="card-sub">يرجى تعبئة جميع البيانات بدقة لنتمكن من دراسة طلبك</div>
   </div>
   <div class="progress-wrap">
@@ -252,12 +281,24 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:40px 16p
       <button class="btn-restart" onclick="restart()">تعبئة استمارة جديدة</button>
     </div>
   </div>
+
+  </div><!-- end main-form -->
+
 </div>
 
 <script>
 const TOTAL=4;
 let cur=1;
 const expAnswered=()=>document.querySelector('#yn-exp .sel');
+
+function startForm(){
+  const sel=document.getElementById('f-invest-location-start');
+  if(!sel.value){shake(sel);return;}
+  document.getElementById('form-title').textContent='استمارة طلب الاستثمار في '+sel.value;
+  document.getElementById('location-select-screen').style.display='none';
+  document.getElementById('main-form').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
 function updateProgress(n){
   const pct=Math.round((n/TOTAL)*100);
@@ -377,6 +418,7 @@ function submit(){
     .map(b=>b.textContent.trim()).join(' - ');
 
   const data={
+    investLocation: document.getElementById('f-invest-location-start').value,
     name:         document.getElementById('f-name').value,
     phone:        document.getElementById('f-phone').value,
     email:        document.getElementById('f-email').value,
@@ -418,6 +460,9 @@ function submit(){
 
 function restart(){
   document.getElementById('success').classList.remove('show');
+  document.getElementById('main-form').style.display='none';
+  document.getElementById('location-select-screen').style.display='flex';
+  document.getElementById('f-invest-location-start').value='';
   ['f-name','f-phone','f-email','f-city','f-edu',
    'f-brand','f-sector','f-prev-type','f-prev-dur','f-prev-loc',
    'f-prev-branches','f-fund-other'].forEach(id=>{
@@ -433,6 +478,7 @@ function restart(){
   cur=1;
   updateProgress(1);
   document.getElementById('s1').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 updateProgress(1);
