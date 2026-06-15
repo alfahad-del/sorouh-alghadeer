@@ -442,8 +442,10 @@ function submit(){
   btn.textContent='جاري الإرسال...';
   btn.disabled=true;
 
-  fetch(SHEET_URL+'?data='+encodeURIComponent(JSON.stringify(data)),{method:'GET'})
-  .then(()=>{
+fetch(SHEET_URL,{
+  method:'POST',
+  body: JSON.stringify(data)
+})  .then(()=>{
     document.getElementById('s4').classList.remove('active');
     document.getElementById('pfill').style.width='100%';
     document.getElementById('pct-lbl').textContent='100%';
